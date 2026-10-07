@@ -41,6 +41,22 @@ app.delete("/users", (req, res) => {
     res.send("<h1 style=\"color: red; text-align: center;  \">Delete a user</h1>");
 });
 
+//* crud operations for products
+app.get("/products", (req, res) => {
+    res.send("<h1 style=\"color: green; text-align: center; \">Get all products</h1>");
+});
+
+app.post("/products", (req,res) => {
+    res.send("<h1 style=\"color: orange; text-align: center;  \">Create a new product</h1>");
+});
+
+app.put("/products", (req,res) => {
+    res.send("<h1 style=\"color: purple; text-align: center;  \">Update a product</h1>");
+});
+
+app.delete("/products", (req,res) => {
+    res.send("<h1 style=\"color: red; text-align: center;  \">Delete a product</h1>");
+});
 
 // get/users -> handler
 
