@@ -1,20 +1,7 @@
 import express from "express";
 import http from "http";
-import {
-  getAll,
-  getById,
-  create,
-  update,
-  remove,
-} from "./controllers/users.controller.js";
-import {
-  getAllProducts,
-  getProductById,
-  createProduct,
-  updateProduct,
-  removeProduct,
-} from "./controllers/products.controller.js";
 import userRoutes from "./routes/user.routes.js";
+import productRoutes from "./routes/product.routes.js";
 
 //* Create an instance of the Express application
 const app = express();
@@ -41,6 +28,8 @@ app.get("/", (req, res) => {
 //! using the user routes
 app.use("/users", userRoutes);
 
+//! using the product routes
+app.use("/products", productRoutes);
 
 //! crud operations for users
 //? read all users
@@ -95,7 +84,7 @@ app.use("/users", userRoutes);
 //     res.send("<h1 style=\"color: green; text-align: center; \">Get all products</h1>");
 // });
 
-app.get("/products", getAllProducts);
+// app.get("/products", getAllProducts);
 
 //* read a single product
 // app.get("/products/:id", (req, res) => {
@@ -103,7 +92,7 @@ app.get("/products", getAllProducts);
 //     res.send(`<h1 style="color: blue; text-align: center; ">Get product with ID: ${productId}</h1>`);
 // });
 
-app.get("/products/:id", getProductById);
+// app.get("/products/:id", getProductById);
 
 //? create a new product
 // app.post("/products", (req,res) => {
@@ -111,7 +100,7 @@ app.get("/products/:id", getProductById);
 //     res.send("<h1 style=\"color: orange; text-align: center;  \">Create a new product</h1>");
 // });
 
-app.post("/products", createProduct);
+// app.post("/products", createProduct);
 
 //? update a product
 // app.put("/products/:id", (req,res) => {
@@ -119,7 +108,7 @@ app.post("/products", createProduct);
 //     res.send(`<h1 style="color: purple; text-align: center; ">Update product with ID: ${productId}</h1>`);
 // });
 
-app.put("/products/:id", updateProduct);
+// app.put("/products/:id", updateProduct);
 
 //? delete a product
 // app.delete("/products/:id", (req,res) => {
@@ -127,7 +116,7 @@ app.put("/products/:id", updateProduct);
 //     res.send(`<h1 style="color: red; text-align: center; ">Delete product with ID: ${productId}</h1>`);
 // });
 
-app.delete("/products/:id", removeProduct);
+// app.delete("/products/:id", removeProduct);
 
 // get/users -> handler
 
