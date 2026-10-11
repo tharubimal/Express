@@ -8,6 +8,7 @@ import mongoose from "mongoose";
 const app = express();
 
 //* Connect to MongoDB using Mongoose */
+// if database is empty, it will not create the database until you insert some data into it
 mongoose.connect("mongodb://localhost:27017/db_name").then(() => {
   console.log("Database connected successfully");
 }).catch((err) => {
@@ -17,8 +18,9 @@ mongoose.connect("mongodb://localhost:27017/db_name").then(() => {
 //* Create an HTTP server using the Express application */
 const server = http.createServer(app);
 
-//* Middleware to parse JSON request bodies */
+//* Middleware to parse JSON and form-encoded request bodies */
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //* Define a route for the root URL */
 //! /path
@@ -190,3 +192,12 @@ server.listen(3000, () => {
 
 //* layered architecture 
 //  client -> load balancer -> server -> database
+
+
+//! why to use database
+
+//? SQL               NoSQL
+// Database          database
+// tables            collections
+// columns           fields
+// rows              documents
