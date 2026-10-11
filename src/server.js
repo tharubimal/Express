@@ -2,9 +2,17 @@ import express from "express";
 import http from "http";
 import userRoutes from "./routes/user.routes.js";
 import productRoutes from "./routes/product.routes.js";
+import mongoose from "mongoose";
 
 //* Create an instance of the Express application
 const app = express();
+
+//* Connect to MongoDB using Mongoose */
+mongoose.connect("mongodb://localhost:27017/db_name").then(() => {
+  console.log("Database connected successfully");
+}).catch((err) => {
+  console.error("Database connection error:", err);
+});
 
 //* Create an HTTP server using the Express application */
 const server = http.createServer(app);
@@ -136,3 +144,49 @@ server.listen(3000, () => {
 
 //* body parameters / body
 //? req.body -> object => body parameters -> create, update => { name: 'John', age: 30 }
+
+//! REST API -> Representational State Transfer API
+//* APIs -> Application Programming Interfaces
+// APIs allow different software applications to communicate with each other
+//* REST -> Representational State Transfer
+// REST represents a set of architectural principles for designing networked applications
+//? RESTful APIs are APIs that follow the principles of REST
+
+//? 1. client-server architecture
+// -> it separates the client and server concerns, allowing them to evolve independently
+//? 2. statelessness
+// -> it means that each request from a client to a server must contain all the information needed to understand and process the request, and the server should not store any information about the client's state between requests
+//? 3. cacheability
+// -> it means that responses from the server can be cached by the client or intermediate proxies to improve performance and reduce the load on the server
+//? 4. layered system
+// -> it means that a client cannot ordinarily tell whether it is connected directly to the end server, or to an intermediary along the way
+//? 5. uniform interface
+// -> it means that the interface between the client and server should be consistent and standardized, allowing for easy communication and understanding between different systems
+//? 6. code on demand (optional)
+// -> it means that servers can temporarily extend or customize the functionality of a client by transferring executable code to it
+
+//? JSON -> JavaScript Object Notation
+// -> it is a lightweight data interchange format that is easy for humans to read and write, and easy for machines to parse and generate
+
+//* json response -> { "message": "Get all users", "data": [...], "status": "success" }
+
+//* send meaningful response http status codes
+// 100-599
+// 100-199 -> informational responses
+// 200-299 -> successful responses
+// 300-399 -> redirection messages
+// 400-499 -> client error responses
+// 500-599 -> server error responses
+
+//? 200 OK -> The request has succeeded
+//? 201 Created -> The request has been fulfilled and has resulted in one or more new resources being created
+//? 400 Bad Request -> The server could not understand the request due to invalid syntax
+//? 401 Unauthorized -> The client must authenticate itself to get the requested response
+//? 403 Forbidden -> The client does not have access rights to the content
+//? 404 Not Found -> The server cannot find the requested resource
+//? 500 Internal Server Error -> The server encountered an unexpected condition that prevented it from fulfilling the request
+//? 502 Bad Gateway -> The server, while acting as a gateway or proxy, received an invalid response from the upstream server
+//? 503 Service Unavailable -> The server is not ready to handle the request
+
+//* layered architecture 
+//  client -> load balancer -> server -> database
