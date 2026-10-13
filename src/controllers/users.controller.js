@@ -1,48 +1,17 @@
-import mongoose, { Schema } from "mongoose";
+import User from "../models/user.model.js";
 
-//* user schema
-//? schema is a blueprint for the data that will be stored in the database
-const userSchema = new Schema(
-  {
-    full_name: {
-      type: String,
-      required: true,
-      minlength: 3,
-      maxlength: 50,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-      minlength: 6,
-      maxlength: 100,
-    },
-  },
-  {
-    timestamps: true,
-  },
-);
+// const validateObjectId = (id, res) => {
+//   if (!mongoose.Types.ObjectId.isValid(id)) {
+//     res.status(400).json({
+//       message: "Invalid user ID",
+//       data: null,
+//       status: "error",
+//     });
+//     return false;
+//   }
 
-//* create collection/model
-//* collection name will be "users" (plural of model name)
-const User = mongoose.model("user", userSchema);
-
-const validateObjectId = (id, res) => {
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(400).json({
-      message: "Invalid user ID",
-      data: null,
-      status: "error",
-    });
-    return false;
-  }
-
-  return true;
-};
+//   return true;
+// };
 
 export const getAll = async (req, res) => {
   // res.send("<h1 style=\"color: green; text-align: center; \">Get all users</h1>");
@@ -79,9 +48,10 @@ export const getById = async (req, res) => {
   //* db query to get user by id
   try {
     const id = req.params.id;
-    if (!validateObjectId(id, res)) return;
+    // if (!validateObjectId(id, res)) return;
 
     const user = await User.findById(id);
+    // const user = await User.findOne({_id: id});
 
     if (!user) {
       res.status(404).json({
@@ -145,12 +115,12 @@ export const update = async (req, res) => {
 
   try {
     const id = req.params.id;
-    if (!validateObjectId(id, res)) return;
+    // if (!validateObjectId(id, res)) return;
 
     const updatedUser = await User.findByIdAndUpdate(
       id,
       { full_name, email, password },
-      { new: true, runValidators: true },
+      { returnDocument: "after" }, //? return the updated document
     );
 
     if (!updatedUser) {
@@ -179,7 +149,7 @@ export const update = async (req, res) => {
 export const remove = async (req, res) => {
   try {
     const id = req.params.id;
-    if (!validateObjectId(id, res)) return;
+    // if (!validateObjectId(id, res)) return;
 
     const deletedUser = await User.findByIdAndDelete(id);
     if (!deletedUser) {

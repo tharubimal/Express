@@ -1,28 +1,4 @@
-import mongoose, {Schema} from "mongoose";
-
-//* Product Schema
-const productSchema = new Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-      minlength: 3,
-      maxlength: 50,
-    },
-    price: {
-      type: Number,
-      required: true,
-      min: 0,
-    },
-  },
-  {
-    timestamps: true,
-  },
-);
-
-//* create collection/model
-//* collection name will be "products" (plural of model name)
-const Product = mongoose.model("product", productSchema);
+import Product from "../models/product.model.js";
 
 export const getAll = async (req, res) => {
   // res.send("<h1 style=\"color: green; text-align: center; \">Get all Products</h1>");
@@ -96,7 +72,7 @@ export const update = async (req, res) => {
       const updatedProduct = await Product.findByIdAndUpdate(
         { _id: id },
         { ...req.body },
-        { new: true },
+        { returnDocument: "after" }, //? return the updated document
       );
       if (!updatedProduct) {
         res.status(404).json({
